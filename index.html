@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gothic Stream - Player</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="video-bg-wrapper">
+        <video id="bgVideo" autoplay loop muted playsinline></video>
+        <div class="video-dark-overlay"></div>
+    </div>
+
+    <div id="playlistPage" class="app-page active">
+        <header class="gothic-header">
+            <h1>Melancholia</h1>
+            <p class="subtitle">"El amor de los mortales se desvanece con el tiempo, pero mi sed por ti durará toda la eternidad."</p>
+        </header>
+        <main class="playlist-container">
+            <ul id="playlistTracks" class="track-grid">
+                </ul>
+        </main>
+    </div>
+
+    <div id="playerPage" class="app-page">
+        <button id="btnBackToHome" class="nav-back-btn">
+            <i class="fas fa-chevron-left"></i> Return
+        </button>
+        
+        <div class="player-wrapper">
+            <div class="player-header-glass">
+                <img id="playerAlbumArt" src="" alt="Album Art" class="player-art">
+                <div class="player-track-meta">
+                    <h2 id="playerTrackTitle" class="gothic-title">Title</h2>
+                    <p id="playerTrackArtist" class="neon-text">Artist</p>
+                </div>
+            </div>
+
+            <div id="lyricsView" class="lyrics-window">
+                </div>
+
+            <div class="player-controls-panel">
+                <div class="timeline-area">
+                    <div id="progressContainer" class="slider-rail">
+                        <div id="progressBar" class="slider-fill"></div>
+                    </div>
+                    <div class="time-stamps">
+                        <span id="timeCurrent">0:00</span>
+                        <span id="timeTotal">0:00</span>
+                    </div>
+                </div>
+
+                <div class="playback-buttons">
+                    <button id="btnShuffle" class="btn-secondary" title="Shuffle"><i class="fas fa-random"></i></button>
+                    <button id="btnPrev" class="btn-primary"><i class="fas fa-step-backward"></i></button>
+                    <button id="btnPlayPause" class="btn-main-action"><i class="fas fa-play"></i></button>
+                    <button id="btnNext" class="btn-primary"><i class="fas fa-step-forward"></i></button>
+                    <button id="btnRepeat" class="btn-secondary" title="Repeat"><i class="fas fa-redo"></i></button>
+                </div>
+
+                <div class="sliders-utilities">
+                    <div class="utility-control">
+                        <i class="fas fa-volume-down volume-glow"></i>
+                        <input type="range" id="sliderVolume" min="0" max="1" step="0.01" value="0.8" class="custom-range">
+                    </div>
+                    <div class="utility-control">
+                        <i class="fas fa-gauge-simple-high speed-glow"></i>
+                        <input type="range" id="sliderSpeed" min="0.5" max="2.0" step="0.25" value="1.0" class="custom-range">
+                        <span id="displaySpeed" class="speed-indicator">1.0x</span>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="branding-credit">@Te Amo M</p>
+        </div>
+    </div>
+
+    <audio id="mainAudio"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
