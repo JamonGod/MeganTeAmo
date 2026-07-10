@@ -234,11 +234,17 @@ function changeView(viewName) {
     if (viewName === 'home') {
         playerPage.classList.remove('active');
         playlistPage.classList.add('active');
-        // Resetear video al volver al home si no se está reproduciendo música
-        if (!isPlaying) {
-            bgVideo.pause();
-            bgVideo.src = "";
+        
+        // --- SOLUCIÓN AL DETALLE ---
+        // Pausar la música obligatoriamente al salir del reproductor
+        if (isPlaying) {
+            pausePlayback();
         }
+        
+        // Apagar y limpiar el video de fondo para no gastar recursos
+        bgVideo.pause();
+        bgVideo.src = "";
+        
     } else if (viewName === 'player') {
         playlistPage.classList.remove('active');
         playerPage.classList.add('active');
