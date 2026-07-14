@@ -88,9 +88,19 @@ body {
     color: var(--text-muted);
     letter-spacing: 2px;
     font-style: italic;
+    max-width: 80%;
+    margin: 0.5rem auto 0; /* Centra la frase y le da aire */
 }
 
-/* Grid de la Playlist */
+/* --- NUEVO: Estructura del Grid de Álbumes (Lobby) --- */
+.albums-layout {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr); /* 2 columnas */
+    gap: 1.5rem !important;
+    max-width: 600px !important; /* Un poco más ancho para que quepan bien */
+}
+
+/* Modificamos el .track-item para que sirva tanto para canciones como para álbumes */
 .track-grid {
     list-style: none;
     padding: 0;
@@ -107,7 +117,7 @@ body {
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
     padding: 1rem;
-    border-radius: 4px;
+    border-radius: 8px; /* Un poco más redondo para que parezcan tarjetas */
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -116,13 +126,28 @@ body {
 .track-item:hover {
     border-color: var(--monster-neon);
     box-shadow: 0 0 15px var(--monster-neon-glow);
-    transform: translateX(5px);
+    transform: translateY(-5px); /* Salta hacia arriba en vez de hacia los lados */
 }
+
+/* Ajustes específicos si el item es un álbum (tarjeta cuadrada) */
+.albums-layout .track-item {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem;
+}
+.albums-layout .track-item img {
+    width: 100px;
+    height: 100px;
+    margin-right: 0;
+    margin-bottom: 1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
 .track-item img {
     width: 55px;
     height: 55px;
     object-fit: cover;
-    border-radius: 2px;
+    border-radius: 4px;
     margin-right: 1.2rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -150,6 +175,7 @@ body {
     display: flex;
     flex-direction: column;
     box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    border-radius: 12px;
 }
 .player-header-glass {
     display: flex;
@@ -164,6 +190,7 @@ body {
     height: 80px;
     object-fit: cover;
     box-shadow: 0 0 20px rgba(0,0,0,0.6);
+    border-radius: 4px;
 }
 .neon-text {
     color: var(--monster-neon);
@@ -176,9 +203,9 @@ body {
 .lyrics-window {
     height: 200px;
     overflow-y: auto;
-    overflow-x: hidden; /* Evita que aparezca una barra de scroll horizontal fea */
+    overflow-x: hidden;
     margin-bottom: 2rem;
-    padding: 0.5rem 1rem 0.5rem 0.5rem; /* Más aire a los lados para que respire el texto */
+    padding: 0.5rem 1rem 0.5rem 0.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
@@ -191,7 +218,7 @@ body {
 
 .lyrics-window::-webkit-scrollbar-thumb {
     background: var(--gothic-purple-bright);
-    border-radius: 4px; /* Para que la barrita sea redondita y estética */
+    border-radius: 4px;
 }
 
 .lyric-row {
@@ -199,15 +226,15 @@ body {
     color: rgba(255, 255, 255, 0.25);
     transition: all 0.3s ease;
     line-height: 1.4;
-    transform-origin: left center; /* LA MAGIA: Hace que el texto crezca hacia la derecha, no hacia los lados */
-    width: 95%; /* Evita que el texto invada la barra de scroll */
+    transform-origin: left center;
+    width: 95%;
 }
 
 .lyric-row.active-lyric {
     color: var(--text-primary);
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
     font-weight: 600;
-    transform: scale(1.04); /* Un crecimiento sutil y elegante */
+    transform: scale(1.04);
 }
 
 /* Controles de Línea de Tiempo */
@@ -220,6 +247,7 @@ body {
     width: 100%;
     cursor: pointer;
     position: relative;
+    border-radius: 2px;
 }
 .slider-fill {
     background: var(--gothic-purple-bright);
@@ -227,6 +255,7 @@ body {
     width: 0%;
     position: relative;
     transition: width 0.1s linear;
+    border-radius: 2px;
 }
 .slider-rail:hover .slider-fill {
     background: var(--monster-neon);
@@ -295,6 +324,7 @@ body {
     background: #1a1a1a;
     height: 4px;
     outline: none;
+    border-radius: 2px;
 }
 .custom-range::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -324,6 +354,7 @@ body {
     letter-spacing: 1px;
     cursor: pointer;
     transition: color 0.3s;
+    z-index: 100; /* Asegura que el botón siempre sea clickeable por encima del fondo */
 }
 .nav-back-btn:hover { color: var(--text-primary); }
 
@@ -334,20 +365,37 @@ body {
     margin: 1.5rem 0 0 0;
     letter-spacing: 1px;
 }
+
 /* =========================================
    RESPONSIVE DESIGN (VISTA DE CELULAR)
    ========================================= */
 @media (max-width: 768px) {
-    /* 1. Márgenes Generales */
     .app-page {
-        padding: 1rem; /* Menos espacio muerto a los bordes */
+        padding: 1rem; 
     }
 
     .gothic-header h1 {
-        font-size: 1.8rem; /* Título principal un poco más compacto */
+        font-size: 1.8rem;
     }
 
-    /* 2. La Lista de Reproducción (Home) */
+    /* En celular, los álbumes pasan de ser 2 columnas a 1 sola columna de tarjetas */
+    .albums-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .albums-layout .track-item {
+        flex-direction: row; /* En celular se ven mejor alargados, como las canciones */
+        text-align: left;
+        padding: 1rem;
+    }
+    
+    .albums-layout .track-item img {
+        width: 60px;
+        height: 60px;
+        margin-right: 1rem;
+        margin-bottom: 0;
+    }
+
     .track-item {
         padding: 0.8rem;
     }
@@ -357,14 +405,12 @@ body {
         margin-right: 0.8rem;
     }
 
-    /* 3. El Reproductor (Magia Mobile) */
     .player-wrapper {
         padding: 1.5rem 1rem;
-        max-width: 100%; /* Aprovecha todo el ancho disponible */
-        margin-top: 2rem; /* Deja espacio para el botón de regresar */
+        max-width: 100%; 
+        margin-top: 2rem; 
     }
 
-    /* Apilamos la portada arriba y el texto centrado abajo */
     .player-header-glass {
         flex-direction: column;
         text-align: center;
@@ -373,7 +419,7 @@ body {
     }
 
     .player-art {
-        width: 110px; /* Portada un poco más grande y protagonista */
+        width: 110px; 
         height: 110px;
     }
 
@@ -385,41 +431,37 @@ body {
         font-size: 1.3rem;
     }
 
-    /* 4. Letras un poquito más compactas */
     .lyrics-window {
-        height: 150px; /* Reducimos altura para que no empuje los botones fuera de la pantalla */
+        height: 150px; 
         margin-bottom: 1.5rem;
     }
 
     .lyric-row {
         font-size: 0.95rem; 
-        text-align: center; /* En celular, la letra centrada se ve súper estética */
-        transform-origin: center center; /* Como la centramos, ahora crece desde el centro */
+        text-align: center; 
+        transform-origin: center center; 
         width: 100%;
     }
 
-    /* 5. Controles Inferiores */
     .playback-buttons {
         gap: 1.5rem;
         justify-content: center;
     }
 
     .btn-main-action {
-        font-size: 1.8rem; /* Botón de play apenas más chico */
+        font-size: 1.8rem; 
     }
 
-    /* Apilamos el volumen y la velocidad uno sobre otro */
     .sliders-utilities {
         flex-direction: column;
         gap: 1rem;
     }
 
-    /* Botón de volver */
     .nav-back-btn {
         top: 1.5rem;
         left: 1rem;
         font-size: 0.8rem;
-        background: rgba(0,0,0,0.5); /* Le damos un fondito oscuro para que se lea siempre */
+        background: rgba(0,0,0,0.5); 
         padding: 0.4rem 0.8rem;
         border-radius: 20px;
     }
